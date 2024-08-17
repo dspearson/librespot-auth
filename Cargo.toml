@@ -14,3 +14,9 @@ sha1 = "0.10.5"
 hex = "0.4.3"
 log = "0.4"
 clap = { version = "4.0", features = ["derive"] }
+
+[profile.static]
+inherits = "release"
+panic = "abort"
+lto = true
+strip = true
