@@ -13,19 +13,19 @@ While running on the same network as a Spotify client, it should appear as a Spo
 
 This process is useful in cases where you run librespot on remote hosts on a different network (thus complicating zeroconf). As of version 3.203.235 of the Spotify eSDK, the `SpConnectionLoginPassword` API has been removed.
 
-## How To Use It With SpotifyD
+## Pre-built binaries
 
-1. Clone the repo
-2. Make sure to stop the spotifyd service `sudo systemctl stop spotifyd.service`
-3. Run `cargo build --release` (requires rust compiler/toolkit, see https://rustup.rs/)
-4. Run `./target/release/librespot-auth --name "Example Speaker"`
-5. In Spotify app select the `Example Speaker` as output device
-6. Copy the `credentials.json` to yours spotifyd `cache_directory`, eg. `~/spotifyd/target/release/cache_directory/`
-7. Restart spotifyd service `sudo systemctl restart spotifyd.service`
+Pre-built statically-linked binaries are available under the releases section for 64-bit Linux systems.
+
+## Building
+
+Install the rust toolchain (see https://rustup.rs/), and run `cargo build --release`.
+
+## Example Usage (spotifyd)
 
 ```bash
-# Example
-./target/release/librespot-auth --name "Example Speaker"
+$ ./target/release/librespot-auth --name "Example Speaker"
 Open Spotify and select output device: Example Speaker
-Credentials saved: credentials.json
 ```
+
+Open the Spotify client from a machine on the same network as you ran this, ensuring no proxy is in use that may interfere with zeroconf. Select the speaker you just defined, i.e. "Example Speaker", as an output device. The credentials are then saved to `credentials.json`. Ensure spotifyd is stopped, i.e. `sudo systemctl stop spotifyd`, copy this file to your spotifyd `cache_directory`, and then start spotifyd again (`sudo systemctl start spotifyd`).
