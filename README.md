@@ -15,7 +15,7 @@ This process is useful in cases where you run librespot on remote hosts on a dif
 
 ## Pre-built binaries
 
-Pre-built statically-linked binaries are available under the releases section for 64-bit Linux systems.
+Pre-built statically-linked binaries are available under the releases section for 64-bit Linux and Windows systems.
 
 ## Building
 
