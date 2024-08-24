@@ -43,7 +43,7 @@ async fn main() {
 
     let mut server = Discovery::builder(device_id.clone(), SessionConfig::default().client_id)
         .name(name.clone())
-        .device_type(DeviceType::Speaker)
+        .device_type(DeviceType::Computer)
         .launch()
         .unwrap();
 
