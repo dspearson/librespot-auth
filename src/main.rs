@@ -2,12 +2,14 @@ use clap::Parser;
 use futures::StreamExt;
 use librespot_core::authentication::Credentials;
 use librespot_core::SessionConfig;
-use librespot_discovery::{DeviceType, Discovery};
+use librespot_core::config::DeviceType;
+use librespot_discovery::Discovery;
 use sha1::{Digest, Sha1};
 use serde_json;
 use std::fs::File;
 use std::io::Write;
 use std::process::exit;
+use std::str::FromStr;
 use log::warn;
 
 #[derive(Parser, Debug)]
@@ -17,6 +19,8 @@ struct Args {
     name: String,
     #[arg(short, long, default_value = "credentials.json")]
     path: String,
+    #[arg(short, long, default_value = "speaker")]
+    class: String,
 }
 
 pub fn save_credentials_and_exit(location: &str, cred: &Credentials) {
@@ -40,10 +44,17 @@ async fn main() {
     let name = args.name;
     let credentials_location = args.path;
     let device_id = hex::encode(Sha1::digest(name.clone().as_bytes()));
+    let device_type = match DeviceType::from_str(&args.class) {
+        Ok(device_type) => device_type,
+        Err(_) => {
+            eprintln!("Invalid device type: {}", args.class);
+            exit(1);
+        }
+    };
 
     let mut server = Discovery::builder(device_id.clone(), SessionConfig::default().client_id)
         .name(name.clone())
-        .device_type(DeviceType::Computer)
+        .device_type(device_type)
         .launch()
         .unwrap();
 

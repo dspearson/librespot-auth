@@ -6,6 +6,13 @@ A simple program for populating a `credentials.json` via Spotify's zeroconf auth
 
 - `--name`: Name of the virtual speaker (default: "Speaker").
 - `--path`: Target path for credentials (default: `credentials.json` relative to execution).
+- `--class`: Class of device, defaults on omission to speaker,
+             one of: computer, tablet, smartphone,
+                     speaker, tv, avr, stb, audiodongle,
+                     gameconsole, castaudio, castvideo,
+                     automobile, smartwatch, chromebook,
+                     carthing, homething.
+
 
 ## How It Works
 
@@ -23,9 +30,11 @@ Install the rust toolchain (see https://rustup.rs/), and run `cargo build --rele
 
 ## Example Usage (spotifyd)
 
+A kind user pointed out that if you select a device type of class 'computer' then premium is not required, so this functionality is implemented (but optional, defaulting to speaker, which is what I use):
+
 ```bash
-$ ./target/release/librespot-auth --name "Example Speaker"
-Open Spotify and select output device: Example Speaker
+$ ./target/release/librespot-auth --name "Second Laptop" --class=computer
+Open Spotify and select output device: Second Laptop
 ```
 
-Open the Spotify client from a machine on the same network as you ran this, ensuring no proxy is in use that may interfere with zeroconf. Select the speaker you just defined, i.e. "Example Speaker", as an output device. The credentials are then saved to `credentials.json`. Ensure spotifyd is stopped, i.e. `sudo systemctl stop spotifyd`, copy this file to your spotifyd `cache_directory`, and then start spotifyd again (`sudo systemctl start spotifyd`).
+Open the Spotify client from a machine on the same network as you ran this, ensuring no proxy is in use that may interfere with zeroconf. Select the speaker you just defined, i.e. "Second Laptop", as an output device. The credentials are then saved to `credentials.json` in the provided path. Ensure spotifyd is stopped, i.e. `sudo systemctl stop spotifyd`, copy this file to your spotifyd `cache_directory`, and then start spotifyd again (`sudo systemctl start spotifyd`).
